@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>eidos-cockpit — Cockpit</title>
+  <title>Eidos Cockpit — Cockpit</title>
   <style>
     :root {
       --primary: #6c8aff;
@@ -145,6 +145,78 @@
     }
     .section li:last-child { margin-bottom: 0; }
 
+    /* Fleet dashboard */
+    .fleet {
+      background: var(--surface);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border-left: 3px solid var(--primary);
+    }
+    .fleet h2 {
+      font-size: 0.8125rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+    .fleet-summary {
+      font-size: 0.875rem;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+    .fleet-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+      font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', monospace;
+      margin-bottom: 1.25rem;
+    }
+    .fleet-table th {
+      text-align: left;
+      font-size: 0.6875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .fleet-table td {
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    .fleet-status { font-weight: 600; }
+    .fleet-status.synced { color: var(--primary); }
+    .fleet-status.ahead { color: var(--warning); }
+    .fleet-status.dirty { color: var(--warning); }
+    .fleet-status.diverged { color: var(--danger); }
+    .fleet-status.new-commits { color: var(--primary); }
+    .fleet-status.remote-only { color: var(--muted); font-style: italic; }
+
+    .pilot-activity {
+      margin-top: 1rem;
+    }
+    .pilot-activity h3 {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+    .pilot-activity-item {
+      font-size: 0.875rem;
+      padding: 0.25rem 0;
+    }
+    .pilot-activity-item strong {
+      color: var(--primary);
+    }
+    .pilot-unknown {
+      color: var(--warning);
+      font-style: italic;
+    }
+
     /* Stale marker */
     .stale {
       color: var(--warning);
@@ -166,26 +238,26 @@
 <body>
 
   <div class="header">
-    <div class="cockpit-name">eidos-cockpit</div>
-    <div class="takeoff-label">Takeoff #3</div>
+    <div class="cockpit-name">Eidos Cockpit</div>
+    <div class="takeoff-label">Takeoff #6</div>
   </div>
 
   <div class="status-bar">
     <div class="status-item">
       <div class="status-label">Pilot</div>
-      <div class="status-value">Daniel Shanklin</div>
+      <div class="status-value">VLR (Vybhav)</div>
     </div>
     <div class="status-item">
       <div class="status-label">Date</div>
-      <div class="status-value">Feb 28, 2026</div>
+      <div class="status-value">Mar 4, 2026</div>
     </div>
     <div class="status-item">
       <div class="status-label">Time</div>
-      <div class="status-value">2:38 PM</div>
+      <div class="status-value">7:15 PM</div>
     </div>
     <div class="status-item">
       <div class="status-label">Takeoff</div>
-      <div class="status-value">#3</div>
+      <div class="status-value">#6</div>
     </div>
   </div>
 
@@ -196,54 +268,123 @@
     </div>
     <div class="status-item">
       <div class="status-label">Working Tree</div>
-      <div class="status-value clean">Clean</div>
+      <div class="status-value dirty">4 files</div>
     </div>
     <div class="status-item">
       <div class="status-label">Session</div>
-      <div class="status-value">#3</div>
+      <div class="status-value">#6</div>
     </div>
     <div class="status-item">
       <div class="status-label">Last Landing</div>
-      <div class="status-value">~33h ago</div>
+      <div class="status-value">4 days ago</div>
     </div>
   </div>
 
-  <div class="drift">
-    <span class="drift-badge">Drift</span>
-    <span class="drift-text">1 new commit pulled from remote &mdash; Hancock auth research brief, approval dashboard design, and AID protocol analysis (4 files added).</span>
+  <div class="resume">
+    Last session ended without a formal landing. Reconstructing from commits and project state.
+  </div>
+
+  <div class="fleet">
+    <h2>Fleet Status</h2>
+    <div class="fleet-summary">7 repos synced | 0 new commits | 0 unpushed</div>
+    <table class="fleet-table">
+      <thead>
+        <tr>
+          <th>Repo</th>
+          <th>Branch</th>
+          <th>Status</th>
+          <th>New</th>
+          <th>Unpushed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>eidos-cockpit</td>
+          <td>main</td>
+          <td><span class="fleet-status dirty">4 dirty</span></td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>eidos-v5</td>
+          <td>main</td>
+          <td><span class="fleet-status dirty">3 dirty</span></td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>hancock</td>
+          <td>main</td>
+          <td><span class="fleet-status synced">clean</span></td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>helios</td>
+          <td>main</td>
+          <td><span class="fleet-status synced">clean</span></td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>eidos-infra</td>
+          <td>main</td>
+          <td><span class="fleet-status synced">clean</span></td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>eidos-studies</td>
+          <td>main</td>
+          <td><span class="fleet-status synced">clean</span></td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>eidos-philosophy</td>
+          <td>main</td>
+          <td><span class="fleet-status synced">clean</span></td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size: 0.875rem; color: var(--muted); font-style: italic; margin-top: 0.5rem;">Remote-only: clawdflare, railguey, apartment-complex-underwriting, eidos-mail, eidos-kb, adrs, eidos-mcp, eidos-cli, eidos-vault, eidos-sso, cockpit-eidos, cockpit-vybhav, cockpit-daniel, eidos-rolodex, eidos-coo</p>
+    <div class="pilot-activity">
+      <h3>Pilot Activity (7d)</h3>
+      <div class="pilot-activity-item"><strong>daniel</strong> (Daniel Shanklin): eidos-cockpit (20 commits), helios (4), eidos-v5 (4), eidos-infra (1)</div>
+      <div class="pilot-activity-item"><strong>vybhav</strong> (VLR): eidos-cockpit (1), hancock (4)</div>
+    </div>
   </div>
 
   <div class="section">
     <h2>Where We Were</h2>
-    <p>Session #2 (Feb 27, early AM) completed a major backlog overhaul &mdash; consolidated duplicate tasks, archived completed work, and aligned the remaining backlog with the product vision that crystallized during the first two sessions. Daniel seeded the cockpit with five core initiatives after the inaugural session, establishing the planning infrastructure for the Eidos ecosystem.</p>
-    <p>Two architectural decisions were locked in. The <strong>North Star decision</strong> established that universal computer control is Eidos&rsquo;s defining differentiator &mdash; APIs are optimizations on top of the universal screen-and-keyboard fallback. The <strong>Hancock decision</strong> identified agent authentication and approval protocols as the critical missing piece in enterprise AI deployment.</p>
-    <p>The cockpit template was synced to v1.2.1, and the /land and /takeoff skills were upgraded with cleanup phases and auto-open dashboards.</p>
+    <p>Last session ended without a formal landing — reconstructing from commits and project state. Daniel has been highly active across the fleet: 20 commits to eidos-cockpit (added Helios as body pillar, logged infrastructure decisions, documented founding agreements), 4 commits each to helios and eidos-v5. Vybhav pushed 4 commits to hancock, completing Phase 6 of the Postgres-backed registry services with 7 database tables (agents, delegations, approvals, activity_logs, agent_capabilities, rate_limit_tracks, spend_tracks). The Hancock implementation decision doc (drafted March 3) outlines technical choices but awaits Daniel's review.</p>
   </div>
 
   <div class="section">
     <h2>Where We Are</h2>
-    <p>The cockpit is in bootstrapping phase, but gaining substance fast. The structural foundation is solid &mdash; state.json tracks sessions, the fleet is defined (v5, Infra, Philosophy, Studies), decisions are recorded, and the backlog has been shaped and deduplicated.</p>
-    <p><strong>New since last session:</strong> Someone pushed Hancock research &mdash; a full auth research brief, an approval dashboard design doc, and two AID protocol knowledge pieces (license analysis and summary). Hancock has moved from &ldquo;decision made&rdquo; to &ldquo;research and design in progress.&rdquo; The knowledge base is no longer empty.</p>
-    <p>The Backlog.md MCP integration referenced in CLAUDE.md hasn&rsquo;t been initialized yet. Tasks exist as raw markdown, functional but not leveraging MCP tools for structured tracking. The domain skills (/plan-sprint, /vision-check, /research-brief) don&rsquo;t exist yet either.</p>
-    <p>Vybhav still has zero cockpit sessions, but the multi-pilot protocol is now more important &mdash; someone is pushing work to the repo outside of tracked cockpit sessions.</p>
+    <p>Fleet is mostly healthy: 7 repos synced, but 2 have uncommitted work (eidos-cockpit: 4 dirty files, eidos-v5: 3 dirty files). Hancock Phase 1 is complete — core types, capability taxonomy, and AID creation modules are in place. The cockpit itself has 16 tasks in backlog spanning Hancock design, orchestrator integration, and various research validations. The untracked decision doc in decisions/ represents a pending approval gate for Phase 2-6 of Hancock. Momentum is solid on the foundational work, but blocked on Daniel's review of the Hancock architecture.</p>
   </div>
 
   <div class="section">
     <h2>Where We're Going</h2>
     <ol>
-      <li><strong>Initialize Backlog.md MCP properly</strong> &mdash; The cockpit references it in CLAUDE.md, but the tooling hasn&rsquo;t been set up. This unblocks structured task tracking, automatic surfacing of active work during /takeoff, and clean session-to-session handoff between pilots. Highest-leverage infrastructure move.</li>
-      <li><strong>Review and synthesize the new Hancock research</strong> &mdash; Four new documents landed from remote. Before pushing forward on Hancock design, digest what&rsquo;s there: auth research findings, dashboard design, AID protocol implications. This prevents duplicate work and ensures the next design step builds on what exists.</li>
-      <li><strong>Write the three domain skills</strong> (/plan-sprint, /vision-check, /research-brief) &mdash; Referenced in CLAUDE.md but don&rsquo;t exist as skill files. /plan-sprint is the most critical for multi-pilot coordination, especially now that work is landing from outside tracked sessions.</li>
+      <li><strong>Review Hancock decision doc</strong> — Daniel's approval unblocks Phase 2-6 (delegation tokens, dashboard UI, API server, client library, Postgres registry). This is the critical path item.</li>
+      <li><strong>Clean up dirty working trees</strong> — 4 modified files in eidos-cockpit and 3 in eidos-v5 should be committed or stashed before they accumulate. Small cleanup, prevents merge pain later.</li>
+      <li><strong>Re-sync with Daniel on priorities</strong> — whether to continue Hancock buildout or shift to other pending tasks (TASK-22 validation, agent identity stack, Railway account setup).</li>
     </ol>
   </div>
 
   <div class="section blockers">
     <h2>Blockers</h2>
-    <p>None. Clear skies. The only coordination need is understanding who pushed the Hancock research and whether they&rsquo;re actively working on it or handing it off.</p>
+    <p><strong>Hancock decision doc waiting on Daniel's review</strong> — drafted March 3, pending approval for 3 days. Blocks Phase 2-6 (delegation module, dashboard UI, API server, client library, registry services).</p>
+    <p><strong>Seven remote-only repos</strong> — clawdflare, railguey, apartment-complex-underwriting, eidos-mail, eidos-kb, adrs, eidos-mcp, eidos-cli, eidos-vault, eidos-sso, cockpit-eidos, cockpit-vybhav, cockpit-daniel, eidos-rolodex, eidos-coo. Not critical for current work but may become relevant later.</p>
+    <p><strong>TASK-22 (CRWD validation) blocked</strong> — depends on PI-1 through PI-5 completion.</p>
   </div>
 
   <div class="timestamp">
-    Generated Feb 28, 2026 at 2:38 PM by /takeoff
+    Generated Mar 4, 2026 at 7:15 PM by /takeoff
   </div>
 
 </body>

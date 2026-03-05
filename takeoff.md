@@ -1,43 +1,59 @@
-# eidos-cockpit — Takeoff #3
+# Eidos Cockpit — Takeoff #6
 
-**Pilot** Daniel Shanklin &nbsp;|&nbsp; **Date** Feb 28, 2026 &nbsp;|&nbsp; **Time** 2:38 PM
+**Pilot** VLR (Vybhav) | **Date** Mar 4, 2026 | **Time** 7:15 PM
 
-**Session** #3 &nbsp;|&nbsp; **Branch** `main` &nbsp;|&nbsp; **Working tree** clean &nbsp;|&nbsp; **Last landing** ~33h ago
+**Session** #6 | **Branch** `main` | **Working tree** 4 files modified | **Last landing** 4 days ago
 
-> **Drift:** 1 new commit pulled from remote — Hancock auth research brief, approval dashboard design, and AID protocol analysis (4 files added).
+> **Resume:** Last session ended without a formal landing. Reconstructing from commits and project state.
+
+---
+
+## Fleet Status
+
+| Repo | Branch | Status | New | Unpushed |
+|------|--------|--------|-----|----------|
+| eidos-cockpit | main | 4 dirty | 0 | 0 |
+| eidos-v5 | main | 3 dirty | 0 | 0 |
+| hancock | main | clean | 0 | 0 |
+| helios | main | clean | 0 | 0 |
+| eidos-infra | main | clean | 0 | 0 |
+| eidos-studies | main | clean | 0 | 0 |
+| eidos-philosophy | main | clean | 0 | 0 |
+
+### Remote-Only Repos
+clawdflare, railguey, apartment-complex-underwriting, eidos-mail, eidos-kb, adrs, eidos-mcp, eidos-cli, eidos-vault, eidos-sso, cockpit-eidos, cockpit-vybhav, cockpit-daniel, eidos-rolodex, eidos-coo
+
+## Pilot Activity (7d)
+
+- **daniel** (Daniel Shanklin): eidos-cockpit (20 commits), helios (4 commits), eidos-v5 (4 commits), eidos-infra (1 commit)
+- **vybhav** (VLR): eidos-cockpit (1 commit), hancock (4 commits)
 
 ---
 
 ## Where We Were
 
-Session #2 (Feb 27, early AM) completed a major backlog overhaul — consolidated duplicate tasks, archived completed work, and aligned the remaining backlog with the product vision that crystallized during the first two sessions. Daniel seeded the cockpit with five core initiatives after the inaugural session, establishing the planning infrastructure for the Eidos ecosystem.
-
-Two architectural decisions were locked in during those sessions. The **North Star decision** established that universal computer control is Eidos's defining differentiator — APIs are optimizations on top of the universal screen-and-keyboard fallback. The **Hancock decision** identified agent authentication and approval protocols as the critical missing piece in enterprise AI deployment.
-
-The cockpit template was synced to v1.2.1, and the /land and /takeoff skills were upgraded with cleanup phases and auto-open dashboards.
+Last session ended without a formal landing — reconstructing from commits and project state. Daniel has been highly active across the fleet: 20 commits to eidos-cockpit (added Helios as body pillar, logged infrastructure decisions, documented founding agreements), 4 commits each to helios and eidos-v5. Vybhav pushed 4 commits to hancock, completing Phase 6 of the Postgres-backed registry services with 7 database tables (agents, delegations, approvals, activity_logs, agent_capabilities, rate_limit_tracks, spend_tracks). The Hancock implementation decision doc (drafted March 3) outlines technical choices but awaits Daniel's review.
 
 ## Where We Are
 
-The cockpit is in bootstrapping phase, but gaining substance fast. The structural foundation is solid — state.json tracks sessions, the fleet is defined (v5, Infra, Philosophy, Studies), decisions are recorded, and the backlog has been shaped and deduplicated.
-
-**New since last session:** Someone pushed Hancock research — a full auth research brief (`briefs/2026-02-25-hancock-auth-research.md`), an approval dashboard design doc (`briefs/2026-02-25-hancock-approval-dashboard-design.md`), and two AID protocol knowledge pieces (license analysis and summary). This means Hancock has moved from "decision made" to "research and design in progress." The knowledge base is no longer empty.
-
-The Backlog.md MCP integration referenced in CLAUDE.md hasn't been initialized yet. Tasks exist as raw markdown, functional but not leveraging MCP tools for structured tracking. The domain skills (/plan-sprint, /vision-check, /research-brief) don't exist yet either.
-
-Vybhav still has zero cockpit sessions, but the multi-pilot protocol is now more important — someone is pushing work to the repo outside of tracked cockpit sessions.
+Fleet is mostly healthy: 7 repos synced, but 2 have uncommitted work (eidos-cockpit: 4 dirty files, eidos-v5: 3 dirty files). Hancock Phase 1 is complete — core types, capability taxonomy, and AID creation modules are in place. The cockpit itself has 16 tasks in backlog spanning Hancock design, orchestrator integration, and various research validations. The untracked decision doc in decisions/ represents a pending approval gate for Phase 2-6 of Hancock. Momentum is solid on the foundational work, but blocked on Daniel's review of the Hancock architecture.
 
 ## Where We're Going
 
-1. **Initialize Backlog.md MCP properly** — The cockpit references it in CLAUDE.md, but the tooling hasn't been set up. This unblocks structured task tracking, automatic surfacing of active work during /takeoff, and clean session-to-session handoff between pilots. Highest-leverage infrastructure move.
+1. **Review Hancock decision doc** — Daniel's approval unblocks Phase 2-6 (delegation tokens, dashboard UI, API server, client library, Postgres registry). This is the critical path item.
 
-2. **Review and synthesize the new Hancock research** — Four new documents landed from remote. Before pushing forward on Hancock design, digest what's there: auth research findings, dashboard design, AID protocol implications. This prevents duplicate work and ensures the next design step builds on what exists.
+2. **Clean up dirty working trees** — 4 modified files in eidos-cockpit and 3 in eidos-v5 should be committed or stashed before they accumulate. Small cleanup, prevents merge pain later.
 
-3. **Write the three domain skills** (/plan-sprint, /vision-check, /research-brief) — Referenced in CLAUDE.md but don't exist as skill files. /plan-sprint is the most critical for multi-pilot coordination, especially now that work is landing from outside tracked sessions.
+3. **Re-sync with Daniel on priorities** — whether to continue Hancock buildout or shift to other pending tasks (TASK-22 validation, agent identity stack, Railway account setup).
 
 ## Blockers
 
-None. Clear skies. The only coordination need is understanding who pushed the Hancock research and whether they're actively working on it or handing it off.
+- **Hancock decision doc waiting on Daniel's review** — drafted March 3, pending approval for 3 days. Blocks Phase 2-6 (delegation module, dashboard UI, API server, client library, registry services).
+
+- **Seven remote-only repos** — clawdflare, railguey, apartment-complex-underwriting, eidos-mail, eidos-kb, adrs, eidos-mcp, eidos-cli, eidos-vault, eidos-sso, cockpit-eidos, cockpit-vybhav, cockpit-daniel, eidos-rolodex, eidos-coo. Not critical for current work but may become relevant later.
+
+- **TASK-22 (CRWD validation) blocked** — depends on PI-1 through PI-5 completion.
 
 ---
 
-*Generated 2026-02-28T14:38:07-0600 by /takeoff*
+*Generated 2026-03-04T19:15:00Z by /takeoff*
